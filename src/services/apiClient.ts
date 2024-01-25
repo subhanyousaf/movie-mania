@@ -1,6 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-const apiUrl = "http://localhost:5000/api";
+const apiUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.subhanyousaaf.me/api"
+    : "http://localhost:5000/api";
 const axiosInstance = axios.create({
   baseURL: apiUrl,
 });
