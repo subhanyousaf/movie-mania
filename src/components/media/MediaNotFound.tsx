@@ -3,7 +3,7 @@ import { MicroscopeIcon } from "../Icons";
 
 const MediaNotFound = () => {
   return (
-    <div className="flex flex-col items-center min-h-screen">
+    <div className="flex flex-col items-center">
       <Alert className="w-full max-w-md p-6 rounded-lg border-none">
         <div className="flex items-center justify-center">
           <MicroscopeIcon className="h-16 w-16 text-zinc-500" />

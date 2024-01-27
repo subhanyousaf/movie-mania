@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios";
 const apiUrl =
   process.env.NODE_ENV === "production"
     ? "https://api.subhanyousaf.me/api"
-    : "http://localhost:5000/api";
+    : "http://192.168.100.4:5000/api";
 const axiosInstance = axios.create({
   baseURL: apiUrl,
 });

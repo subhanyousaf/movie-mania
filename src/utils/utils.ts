@@ -1,5 +1,3 @@
-import { Captions } from "@/entities/Stream";
-
 declare global {
   interface String {
     ucwords(): string;
@@ -27,10 +25,6 @@ export function formatTime(time: number) {
   } else {
     return `${minutes.toString().padStart(2, "0")}:${seconds}`;
   }
-}
-
-export function getEnCaptionUrl(captions: Captions[]): Captions | undefined {
-  return captions.find((caption) => caption.language === "en");
 }
 
 String.prototype.ucwords = function () {

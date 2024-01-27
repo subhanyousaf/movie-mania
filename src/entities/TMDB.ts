@@ -16,6 +16,7 @@ export interface TMDb {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  seasons: TMDbSeason[];
 }
 
 export interface TMDbResponse {
@@ -26,6 +27,7 @@ export interface TMDbResponse {
 }
 
 export interface TMDbEpisode {
+  name: string;
   air_date: string;
   episode_number: number;
   id: number;
@@ -40,4 +42,5 @@ export interface TMDbSeason {
   season_number: number;
   vote_average: number;
   episodes: TMDbEpisode[];
+  episode_count: number;
 }
