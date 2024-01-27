@@ -1,7 +1,27 @@
+import RecentMedia from "@/entities/Media";
+
 declare global {
   interface String {
     ucwords(): string;
   }
+}
+
+export function getRecents(
+  filterByTmdbId?: string
+): RecentMedia | RecentMedia[] | null {
+  const recents = localStorage.getItem("recentMedia");
+  if (recents) {
+    const parsedRecents = JSON.parse(recents) as RecentMedia[];
+    if (filterByTmdbId) {
+      const filteredRecents = parsedRecents.filter(
+        (recent) => recent.tmdbId === filterByTmdbId
+      );
+      return filteredRecents.length > 0 ? filteredRecents[0] : null;
+    } else {
+      return parsedRecents;
+    }
+  }
+  return [];
 }
 
 export function getTmdbImageURL(path: string): string {

@@ -11,16 +11,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import RecentMedia from "@/entities/Media";
 import useTrendingTMDb from "@/hooks/tmdb/useTrendingTMDb";
+import { getRecents } from "@/utils/utils";
 
 const Home = () => {
   const { data, error, isLoading } = useTrendingTMDb();
 
-  const recents: RecentMedia[] = JSON.parse(
-    localStorage.getItem("recentMedia") || "[]"
-  );
+  const recents = getRecents() as RecentMedia[];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-4">
       {recents.length > 0 && (
         <div>
           <H2>Recents</H2>
@@ -37,11 +36,14 @@ const Home = () => {
                   key={recent.tmdbId}
                   type={recent.type}
                   tmdbId={recent.tmdbId}
+                  season={recent.season || undefined}
+                  episode={recent.episode || undefined}
+                  progress={recent.progress || undefined}
                 />
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
       )}

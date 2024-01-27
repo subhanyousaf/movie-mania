@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Logo from "./Logo";
 import { ModeToggle } from "./ModeToggle";
 
@@ -14,9 +14,9 @@ export default function NavBar() {
           to={getSearchQuery === "" ? "/" : `/search/${getSearchQuery}`}
         />
       )}
-      <a className="md:mr-6" href="#">
+      <Link className="md:mr-6" to="/">
         <Logo />
-      </a>
+      </Link>
 
       <div className="flex-1 mx-4 md:ml-6">
         <Input

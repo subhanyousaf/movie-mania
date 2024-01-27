@@ -1,11 +1,14 @@
 import MediaDetails from "@/components/media/MediaDetails";
+import MediaLoadingError from "@/components/media/MediaLoadingError";
+import MediaNotFound from "@/components/media/MediaNotFound";
 import MediaPlayer from "@/components/media/MediaPlayer";
+import RecentMedia from "@/entities/Media";
 import { Stream, StreamType } from "@/entities/Stream";
 import useTMDbDetails from "@/hooks/tmdb/useDetails";
 import { TMDbTypes } from "@/stores";
+import { getRecents } from "@/utils/utils";
 import { useParams } from "react-router-dom";
 import Loading from "./Loading";
-import MediaLoadingError from "@/components/media/MediaLoadingError";
 
 const Movie = () => {
   const { tmdbId } = useParams<{ tmdbId: string }>();
@@ -13,7 +16,7 @@ const Movie = () => {
 
   if (isLoading) return <Loading />;
   if (error) return <MediaLoadingError />;
-  if (!data) return <div>Something went wrong...</div>;
+  if (!data) return <MediaNotFound />;
 
   const stream: Stream = {
     type: StreamType.Movie,
@@ -24,9 +27,15 @@ const Movie = () => {
     tmdbId: tmdbId!,
   };
 
+  const progress = (getRecents(tmdbId) as RecentMedia)?.progress;
+
   return (
     <div className="flex flex-col space-y-2">
-      <MediaPlayer stream={stream} type={TMDbTypes.MOVIE} />
+      <MediaPlayer
+        stream={stream}
+        type={TMDbTypes.MOVIE}
+        recentProgress={progress}
+      />
       <MediaDetails
         type={StreamType.Movie}
         title={stream.title}

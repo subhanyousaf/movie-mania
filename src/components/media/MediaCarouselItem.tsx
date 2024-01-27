@@ -7,9 +7,12 @@ import MediaCard from "./MediaCard";
 interface Props {
   tmdbId: string;
   type: string;
+  season?: number;
+  episode?: number;
+  progress?: number;
 }
 
-const MediaCarouselItem = ({ tmdbId, type }: Props) => {
+const MediaCarouselItem = ({ tmdbId, type, season, episode, progress }: Props) => {
   const { data } = useTMDbDetails(type as TMDbTypes, tmdbId!);
 
   if (data === undefined) return null;
@@ -27,6 +30,9 @@ const MediaCarouselItem = ({ tmdbId, type }: Props) => {
           data.release_date?.substring(0, 4) ||
           data.first_air_date?.substring(0, 4)
         }
+        season={season}
+        episode={episode}
+        progress={progress}
       />
     </CarouselItem>
   );

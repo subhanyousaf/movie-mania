@@ -17,8 +17,6 @@ const MediaGrid = ({ data, error, isLoading }: Props) => {
 
   if (error) return <MediaLoadingError />;
 
-  console.log(data);
-
   if (data && data.results.length === 0) {
     return <MediaNotFound />;
   }

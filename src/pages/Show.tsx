@@ -14,11 +14,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import RecentMedia from "@/entities/Media";
 import { Stream, StreamType } from "@/entities/Stream";
 import { TMDbSeason } from "@/entities/TMDB";
 import useTMDbDetails from "@/hooks/tmdb/useDetails";
 import useTMDbSeason from "@/hooks/tmdb/useTMDbSeason";
 import { TMDbTypes } from "@/stores";
+import { getRecents } from "@/utils/utils";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -58,14 +60,20 @@ const Show = () => {
     },
     episode: {
       number: episode,
-      tmdbId: seasonsData.episodes[0].id.toString(),
+      tmdbId: seasonsData.episodes[0]?.id.toString(),
     },
   };
+
+  const progress = (getRecents(tmdbId) as RecentMedia)?.progress;
 
   return (
     <div className="flex flex-col space-y-2">
       <Card className="flex flex-col md:flex-row overflow-hidden shadow-none">
-        <MediaPlayer stream={stream} type={TMDbTypes.TV} />
+        <MediaPlayer
+          stream={stream}
+          type={TMDbTypes.TV}
+          recentProgress={progress}
+        />
         <div className="md:w-[20%] md:max-w-[20%]">
           <CardHeader className="pb-4">
             <Select
@@ -84,12 +92,12 @@ const Show = () => {
                 />
               </SelectTrigger>
               <SelectContent defaultValue={season.toString()}>
-                {data.seasons.map((season: TMDbSeason) => (
+                {data.seasons.map((seasonItem: TMDbSeason) => (
                   <SelectItem
-                    key={season.season_number}
-                    value={season.season_number.toString()}
+                    key={seasonItem.season_number}
+                    value={seasonItem.season_number.toString()}
                   >
-                    {season.name}
+                    {seasonItem.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -97,7 +105,7 @@ const Show = () => {
             <Separator />
           </CardHeader>
           <CardContent className="px-4">
-            <p className="px-2 text-sm text-muted-foreground">
+            <p className="px-2 pb-2 text-sm text-muted-foreground">
               Select an episode to watch.
             </p>
             <ScrollArea className="h-[20rem] md:h-[40rem]">
@@ -109,12 +117,17 @@ const Show = () => {
                   key={episodeData.episode_number}
                   onClick={() => setEpisode(episodeData.episode_number)}
                 >
-                  <span className="bg-gray-200 dark:bg-zinc-900 px-2 py-1 font-bold text-md rounded">
+                  <span className="bg-gray-200 dark:bg-zinc-900 px-2 py-1.5 font-bold text-md rounded">
                     E{episodeData.episode_number}
                   </span>
                   <div className="flex flex-row ml-2 items-center justify-between w-full">
                     <div className="flex flex-col overflow-hidden truncate text-wrap">
-                      <span className="text-md font-bold text-ellipsis overflow-hidden ">
+                      <span
+                        className={`text-md font-bold text-ellipsis overflow-hidden ${
+                          episodeData.episode_number === episode &&
+                          "text-green-700 dark:text-green-600"
+                        }`}
+                      >
                         {episodeData.name}
                       </span>
                       {episodeData.episode_number === episode && (

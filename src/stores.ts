@@ -18,10 +18,8 @@ export const useTMDbStore = create<TMDbStore>((set) => ({
   search: "",
   setSortBy: (sortBy: TMDbTypes) => {
     set({ sortBy });
-    console.log(sortBy);
   },
   setSearch: (search: string) => {
     set({ search });
-    console.log(search);
   },
 }));
