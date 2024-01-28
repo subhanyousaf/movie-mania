@@ -49,7 +49,8 @@ const MediaPlayer = ({ stream, type, recentProgress }: Props) => {
       data.stream.qualities["1080"]?.url ||
       data.stream.qualities["720"]?.url ||
       data.stream.qualities["480"]?.url ||
-      data.stream.qualities["360"]?.url;
+      data.stream.qualities["360"]?.url ||
+      data.stream.qualities["unknown"]?.url;
   }
 
   if (data?.stream.type === "hls") {
@@ -91,6 +92,7 @@ const MediaPlayer = ({ stream, type, recentProgress }: Props) => {
         url={url}
         playsinline={true}
         playing={true}
+        muted={true}
         controls={true}
         width="100%"
         height="100%"
