@@ -6,6 +6,8 @@ import { getRecents } from "@/utils/utils";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { Skeleton } from "../ui/skeleton";
+import { ToastAction } from "../ui/toast";
+import { useToast } from "../ui/use-toast";
 import MediaDoesNotExist from "./MediaDoesNotExist";
 
 interface Props {
@@ -19,6 +21,7 @@ const MediaPlayer = ({ stream, type, recentProgress }: Props) => {
   const [progress, setProgress] = useState(recentProgress || 0);
   const [playerReady, setPlayerReady] = useState(false);
   const playerRef = useRef<ReactPlayer>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (recentProgress && playerReady) {
@@ -91,13 +94,20 @@ const MediaPlayer = ({ stream, type, recentProgress }: Props) => {
         ref={playerRef}
         url={url}
         playsinline={true}
-        playing={true}
-        muted={true}
         controls={true}
         width="100%"
         height="100%"
         onProgress={(state) => setProgress(state.played * 100)}
-        onReady={() => setPlayerReady(true)}
+        onReady={() => {
+          setPlayerReady(true);
+          toast({
+            variant: "destructive",
+            title: "Auto-play is disabled temporarily.",
+            description: "Please click the play button to start watching.",
+            
+            action: <ToastAction altText="dismiss">Dismiss</ToastAction>,
+          });
+        }}
       />
     </div>
   );
