@@ -33,6 +33,7 @@ const MediaCarouselItem = ({ tmdbId, type, season, episode, progress }: Props) =
         season={season}
         episode={episode}
         progress={progress}
+        isRecentCard
       />
     </CarouselItem>
   );

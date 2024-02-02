@@ -1,16 +1,26 @@
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Theme, useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useTheme } from "@/components/theme-provider"
+} from "@/components/ui/dropdown-menu";
 
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+  const { setTheme } = useTheme();
+
+  const themes = [
+    { name: "Light", value: "light" },
+    { name: "Dark", value: "dark" },
+    { name: "Blue", value: "blue" },
+    { name: "Green", value: "green" },
+    { name: "Red", value: "red" },
+    { name: "Violet", value: "violet" },
+    { name: "System", value: "system" },
+  ];
 
   return (
     <DropdownMenu>
@@ -22,16 +32,15 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
+        {themes.map((theme) => (
+          <DropdownMenuItem
+            key={theme.value}
+            onClick={() => setTheme(theme.value as Theme)}
+          >
+            {theme.name}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

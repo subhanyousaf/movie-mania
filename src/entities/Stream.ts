@@ -18,14 +18,14 @@ export interface Stream {
   };
 }
 
-export type StreamFile = {
+export declare type StreamFile = {
   type: "mp4";
   url: string;
 };
 
-export type Qualities = "unknown" | "360" | "480" | "720" | "1080" | "4k";
+export declare type Qualities = "unknown" | "360" | "480" | "720" | "1080" | "4k";
 
-export type Captions = {
+export declare type Captions = {
   id: string;
   language: string;
   hasCorsRestrictions: boolean;
@@ -33,25 +33,30 @@ export type Captions = {
   url: string;
 }
 
-export type StreamCommon = {
+export declare type StreamCommon = {
   id: string;
   flags: string[];
   stream: Stream;
   captions: Captions[];
 };
 
-export type FileBasedStream = StreamCommon & {
+export declare type FileBasedStream = StreamCommon & {
   type: "file";
   qualities: Partial<Record<Qualities, StreamFile>>;
 };
 
-export type HlsBasedStream = StreamCommon & {
+export declare type HlsBasedStream = StreamCommon & {
   type: "hls";
   playlist: string;
 };
 
-export type StreamResponse = {
+export declare type StreamResponse = {
   sourceId: string;
-  embedId?: string;
-  stream: FileBasedStream | HlsBasedStream;
+  streams: FileBasedStream[] | HlsBasedStream[];
 };
+
+export declare type StreamSource = {
+  id: string;
+  rank: number;
+  name: string;
+}

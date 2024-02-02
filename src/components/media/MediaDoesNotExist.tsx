@@ -9,12 +9,11 @@ const MediaDoesNotExist = () => {
         <div className="flex items-center justify-center">
           <FilmIcon className="h-8 w-8 md:h-16 md:w-16 text-red-500" />
         </div>
-        <AlertTitle className="mt-4 text-lg md:text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
+        <AlertTitle className="mt-4 text-lg md:text-2xl font-bold text-center text-foreground">
           Movie/Show Not Found
         </AlertTitle>
-        <AlertDescription className="mt-2 text-xs md:text-sm text-center text-gray-700 dark:text-gray-300">
-          We couldn't find the movie or show you were looking for. This could be
-          because our proxy failed to find the requested media.
+        <AlertDescription className="mt-2 text-xs md:text-sm text-center text-muted-foreground">
+          We couldn't find the movie or show you were looking for. Try changing the source or screen.
         </AlertDescription>
       </Alert>
       <div className="flex items-center justify-center">

@@ -1,9 +1,11 @@
+import { useRecentEditingStore } from "@/stores";
 import { motion } from "framer-motion";
-import { DotIcon, Star } from "lucide-react";
+import { DotIcon, Star, Trash2Icon } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { H4, Muted } from "../Typography";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import { Card, CardHeader, CardImage } from "../ui/card";
 import { Progress } from "../ui/progress";
 import { Skeleton } from "../ui/skeleton";
@@ -18,6 +20,7 @@ interface Props {
   season?: number;
   episode?: number;
   progress?: number;
+  isRecentCard?: boolean;
 }
 
 const MediaCard = ({
@@ -30,8 +33,11 @@ const MediaCard = ({
   season,
   episode,
   progress,
+  isRecentCard,
 }: Props) => {
   const [imageLoaded, setImageLoaded] = useState(true);
+  const inEditingMode = useRecentEditingStore((state) => state.editing);
+
   const newType = type === "Movie" ? "movie" : "show";
 
   return (
@@ -40,8 +46,9 @@ const MediaCard = ({
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
+      className="flex flex-col justify-between h-[100%]"
     >
-      <Card className="border-none shadow-none px-3 py-1 hover:bg-zinc-200 dark:hover:bg-zinc-900 transition duration-300 ease-in-out">
+      <Card className="border-none bg-transparent shadow-none px-3 py-1 hover:bg-secondary transition duration-300 ease-in-out">
         <NavLink
           to={
             "/" +
@@ -65,6 +72,7 @@ const MediaCard = ({
                   onLoad={() => setImageLoaded(true)}
                   onError={() => setImageLoaded(false)}
                 />
+
                 {season && episode && (
                   <Badge
                     variant="secondary"
@@ -94,6 +102,11 @@ const MediaCard = ({
           </div>
         </NavLink>
       </Card>
+      {inEditingMode && isRecentCard && (
+        <Button variant="outline" className="my-2">
+          <Trash2Icon />
+        </Button>
+      )}
     </motion.div>
   );
 };

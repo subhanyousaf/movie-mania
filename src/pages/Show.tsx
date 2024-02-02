@@ -117,7 +117,7 @@ const Show = () => {
                   key={episodeData.episode_number}
                   onClick={() => setEpisode(episodeData.episode_number)}
                 >
-                  <span className="bg-gray-200 dark:bg-zinc-900 px-2 py-1.5 font-bold text-md rounded">
+                  <span className="bg-secondary px-2 py-1.5 font-bold text-md rounded">
                     E{episodeData.episode_number}
                   </span>
                   <div className="flex flex-row ml-2 items-center justify-between w-full">

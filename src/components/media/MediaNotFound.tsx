@@ -8,10 +8,10 @@ const MediaNotFound = () => {
         <div className="flex items-center justify-center">
           <MicroscopeIcon className="h-16 w-16 text-zinc-500" />
         </div>
-        <AlertTitle className="mt-4 text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
+        <AlertTitle className="mt-4 text-2xl font-bold text-center text-foreground">
           Nothing to see here.
         </AlertTitle>
-        <AlertDescription className="mt-2 text-center text-gray-700 dark:text-gray-300">
+        <AlertDescription className="mt-2 text-center text-muted-foreground">
           Your search did not return any results. Please try again with
           different keywords.
         </AlertDescription>

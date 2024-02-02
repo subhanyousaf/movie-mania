@@ -1,13 +1,11 @@
 import RecentMedia from "@/entities/Media";
 import { Stream } from "@/entities/Stream";
 import useGetStream from "@/hooks/stream/useGetStream";
-import { TMDbTypes } from "@/stores";
+import { TMDbTypes, useStreamStore } from "@/stores";
 import { getRecents } from "@/utils/utils";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { Skeleton } from "../ui/skeleton";
-import { ToastAction } from "../ui/toast";
-import { useToast } from "../ui/use-toast";
 import MediaDoesNotExist from "./MediaDoesNotExist";
 
 interface Props {
@@ -17,47 +15,59 @@ interface Props {
 }
 
 const MediaPlayer = ({ stream, type, recentProgress }: Props) => {
-  const { data, error, isLoading } = useGetStream(stream);
+  const source = useStreamStore((state) => state.source);
+  const setStreamResponse = useStreamStore((state) => state.setStreamResponse);
+  const streamIndex = useStreamStore((state) => state.streamIndex);
+
+  const { data, error, isLoading } = useGetStream(stream, source);
+
   const [progress, setProgress] = useState(recentProgress || 0);
   const [playerReady, setPlayerReady] = useState(false);
+  const [playerError, setPlayerError] = useState(false);
+
   const playerRef = useRef<ReactPlayer>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
-    if (recentProgress && playerReady) {
-      playerRef.current?.seekTo(recentProgress / 100, "fraction");
+    if (recentProgress && playerReady && playerRef.current) {
+      playerRef.current.seekTo(recentProgress / 100, "fraction");
     }
-  }, [playerReady, recentProgress]);
+  }, [playerReady, recentProgress, playerRef]);
+
+  useEffect(() => {
+    if (data) {
+      setStreamResponse(data);
+    }
+  }, [data, setStreamResponse]);
+
+  useEffect(() => {
+    setPlayerError(false);
+  }, [data]);
 
   if (isLoading)
     return (
       <Skeleton className="h-52 w-auto md:h-auto md:w-full rounded-none" />
     );
-  if (error)
+  if (error || !data || data.streams.length === 0 || playerError) {
     return (
       <div className="flex justify-center items-center w-full md:border-r-2">
         <MediaDoesNotExist />
       </div>
     );
-  if (!data)
-    return (
-      <div className="flex justify-center items-center w-full md:border-r-2">
-        <MediaDoesNotExist />
-      </div>
-    );
-
-  let url;
-  if (data?.stream.type === "file") {
-    url =
-      data.stream.qualities["1080"]?.url ||
-      data.stream.qualities["720"]?.url ||
-      data.stream.qualities["480"]?.url ||
-      data.stream.qualities["360"]?.url ||
-      data.stream.qualities["unknown"]?.url;
   }
 
-  if (data?.stream.type === "hls") {
-    url = data.stream.playlist;
+  let url;
+  const streamData = data.streams[streamIndex || 0];
+  if (streamData.type === "file") {
+    url =
+      streamData.qualities["1080"]?.url ||
+      streamData.qualities["720"]?.url ||
+      streamData.qualities["480"]?.url ||
+      streamData.qualities["360"]?.url ||
+      streamData.qualities["unknown"]?.url;
+  }
+
+  if (streamData.type === "hls") {
+    url = streamData.playlist;
   }
 
   if (data && stream.tmdbId) {
@@ -98,16 +108,10 @@ const MediaPlayer = ({ stream, type, recentProgress }: Props) => {
         width="100%"
         height="100%"
         onProgress={(state) => setProgress(state.played * 100)}
-        onReady={() => {
-          setPlayerReady(true);
-          toast({
-            variant: "destructive",
-            title: "Auto-play is disabled temporarily.",
-            description: "Please click the play button to start watching.",
-            
-            action: <ToastAction altText="dismiss">Dismiss</ToastAction>,
-          });
+        onError={() => {
+          setPlayerError(true);
         }}
+        onReady={() => setPlayerReady(true)}
       />
     </div>
   );
