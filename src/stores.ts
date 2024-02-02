@@ -65,15 +65,3 @@ export const useRecentEditingStore = create<RecentEditingStore>((set) => ({
     set({ editing });
   },
 }));
-
-interface RecentsStore {
-  recentsUpdated: boolean;
-  setRecentsUpdated: (recentsUpdated: boolean) => void;
-}
-
-export const useRecentsStore = create<RecentsStore>((set) => ({
-  recentsUpdated: false,
-  setRecentsUpdated: (recentsUpdated: boolean) => {
-    set({ recentsUpdated });
-  },
-}));

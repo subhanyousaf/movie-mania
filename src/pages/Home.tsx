@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/tooltip";
 import RecentMedia from "@/entities/Media";
 import useTrendingTMDb from "@/hooks/tmdb/useTrendingTMDb";
-import { useRecentEditingStore, useRecentsStore } from "@/stores";
+import { useRecentEditingStore } from "@/stores";
 import { getRecents } from "@/utils/utils";
 import { Pencil } from "lucide-react";
 
@@ -26,9 +26,6 @@ const Home = () => {
   const { data, error, isLoading } = useTrendingTMDb();
   const setEditing = useRecentEditingStore((state) => state.setEditing);
   const inEditingMode = useRecentEditingStore((state) => state.editing);
-  
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const recentsUpdated = useRecentsStore((state) => state.recentsUpdated); // To force re-render when recents are updated
 
   const recents = getRecents() as RecentMedia[];
 
@@ -47,7 +44,9 @@ const Home = () => {
                   <TooltipTrigger>
                     <Button
                       variant="outline"
-                      className={`overflow-hidden rounded-lg transition-all duration-200 ${inEditingMode ? "w-28" : "w-12"}`}
+                      className={`overflow-hidden rounded-lg transition-all duration-200 ${
+                        inEditingMode ? "w-28" : "w-12"
+                      }`}
                       onClick={() => setEditing(!inEditingMode)}
                     >
                       {inEditingMode ? "Cancel Editing" : <Pencil size={20} />}

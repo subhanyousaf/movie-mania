@@ -9,6 +9,8 @@ import { Button } from "../ui/button";
 import { Card, CardHeader, CardImage } from "../ui/card";
 import { Progress } from "../ui/progress";
 import { Skeleton } from "../ui/skeleton";
+import { ToastAction } from "../ui/toast";
+import { useToast } from "../ui/use-toast";
 
 interface Props {
   id: string;
@@ -36,6 +38,7 @@ const MediaCard = ({
   isRecentCard,
 }: Props) => {
   const [imageLoaded, setImageLoaded] = useState(true);
+  const { toast } = useToast();
   const inEditingMode = useRecentEditingStore((state) => state.editing);
 
   const newType = type === "Movie" ? "movie" : "show";
@@ -103,7 +106,18 @@ const MediaCard = ({
         </NavLink>
       </Card>
       {inEditingMode && isRecentCard && (
-        <Button variant="outline" className="my-2">
+        <Button
+          variant="outline"
+          className="my-2"
+          onClick={() =>
+            toast({
+              variant: "destructive",
+              title: "Experimental",
+              description: "Recents deletion coming soon!",
+              action: <ToastAction altText="Dismiss">Try again</ToastAction>,
+            })
+          }
+        >
           <Trash2Icon />
         </Button>
       )}
