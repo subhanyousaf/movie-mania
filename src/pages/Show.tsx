@@ -125,7 +125,7 @@ const Show = () => {
                       <span
                         className={`text-md font-bold text-ellipsis overflow-hidden ${
                           episodeData.episode_number === episode &&
-                          "text-green-700 dark:text-green-600"
+                          "text-primary"
                         }`}
                       >
                         {episodeData.name}

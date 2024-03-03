@@ -3,7 +3,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const MediaCardSkeleton = () => {
   return (
-    <Card className="border-none p-3 shadow-none">
+    <Card className="border-none shadow-none">
       <Skeleton className="rounded-xl h-[275px]" />
       <CardHeader className="py-3 px-0">
         <Skeleton className="h-6 w-32" />

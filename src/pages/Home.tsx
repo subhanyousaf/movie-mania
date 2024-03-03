@@ -3,12 +3,7 @@ import MediaCarouselItem from "@/components/media/MediaCarouselItem";
 import MediaGrid from "@/components/media/MediaGrid";
 import MediaTypeTabs from "@/components/media/MediaTypeTabs";
 import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -77,8 +72,6 @@ const Home = () => {
                 />
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
       )}

@@ -45,13 +45,13 @@ const MediaCard = ({
 
   return (
     <motion.div
-      key={Math.random()} // This is a hack to force the component to re-render when the route changes
+      key={id}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       className="flex flex-col justify-between h-[100%]"
     >
-      <Card className="border-none bg-transparent shadow-none px-3 py-1 hover:bg-secondary transition duration-300 ease-in-out">
+      <Card className="group border-none bg-transparent shadow-none hover:bg-secondary transition duration-300 ease-in-out">
         <NavLink
           to={
             "/" +
@@ -63,7 +63,7 @@ const MediaCard = ({
               : "")
           }
         >
-          <div className="transition-all duration-200 ease-in-out transform hover:scale-90">
+          <div className="transition-all duration-200 ease-in-out transform group-hover:scale-x-[85%] group-hover:scale-y-[89%]">
             {imageLoaded === false ? (
               <Skeleton className="rounded-xl h-72" />
             ) : (
@@ -78,7 +78,7 @@ const MediaCard = ({
 
                 {season && episode && (
                   <Badge
-                    variant="secondary"
+                    variant="default"
                     className="absolute top-2 right-2 font-bold"
                   >
                     S{season} E{episode}
@@ -105,6 +105,7 @@ const MediaCard = ({
           </div>
         </NavLink>
       </Card>
+
       {inEditingMode && isRecentCard && (
         <Button
           variant="outline"
